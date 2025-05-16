@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenxw.demo.mapper.UserMapper">
+    <insert id="insertUser" parameterType="com.chenxw.demo.pojo.User"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO user (
+            username,
+            password
+        ) VALUES (
+             #{username},
+             #{password}
+        )
+    </insert>
+    <update id="updateScoreById">
+        update user
+        set score = #{score}
+        where id = #{id}
+    </update>
+
+    <select id="getUserByUsername" parameterType="com.chenxw.demo.pojo.User" resultType="com.chenxw.demo.pojo.User">
+        SELECT
+            id,
+            username,
+            password
+        FROM
+            user
+        WHERE
+            username = #{username}
+    </select>
+    <select id="getUserByUsernameAndPassword" resultType="com.chenxw.demo.pojo.User">
+        SELECT
+            id,
+            username,
+            password
+        FROM
+            user
+        WHERE
+            username = #{username}
+            and
+            password = #{password}
+    </select>
+    <select id="queryScoreById" resultType="java.lang.Integer">
+        select
+            score
+        FROM
+            user
+        where
+            id = #{id}
+    </select>
+</mapper>
