@@ -1,0 +1,111 @@
+version: '3'
+services:
+  demo-nacos:
+    container_name: demo-nacos
+    image: nacos/nacos-server:v2.2.0
+    build:
+      context: ./nacos
+    environment:
+      - MODE=standalone
+      # 使用 mysql 作为数据库
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=demo-mysql
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos_config
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=20041111
+      # 设置连接 mysql 的连接参数
+      - MYSQL_DB_PARAM="characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+
+    volumes:
+      - ./nacos/logs/:/home/nacos/logs
+      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+    privileged: true
+    networks:
+      - demo-network
+    depends_on:
+      demo-mysql:
+        condition: service_healthy
+
+
+#      - demo-mysql
+  demo-mysql:
+    container_name: demo-mysql
+    image: mysql:8.0
+    build:
+      context: ./mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/db:/docker-entrypoint-initdb.d/
+    command: [
+      'mysqld',
+      '--innodb-buffer-pool-size=80M',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--default-time-zone=+8:00',
+      '--lower-case-table-names=1'
+    ]
+    privileged: true
+    networks:
+      - demo-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 5
+    environment:
+      MYSQL_ROOT_PASSWORD: '20041111'
+
+  demo-redis:
+    container_name: demo-redis
+    image: redis:7.2.3
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/conf/redis.conf:/home/demo/redis/redis.conf
+      - ./redis/data:/data
+    command: redis-server /home/demo/redis/redis.conf
+    networks:
+      - demo-network
+
+  demo-gateway:
+    container_name: demo-gateway
+    build:
+      context: ./demo/gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - demo-redis
+      - demo-nacos
+
+    networks:
+      - demo-network
+
+  demo-user:
+    container_name: demo-user
+    build:
+      context: ./demo/user
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    depends_on:
+      - demo-redis
+      - demo-mysql
+      - demo-nacos
+    networks:
+      - demo-network
+
+networks:
+  demo-network:
+    driver: bridge

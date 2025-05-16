@@ -1,0 +1,18 @@
+2025-05-17 00:13:22,498 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.CmdbSelectorContextBuilder) contextType(CMDB) successfully.
+
+2025-05-17 00:13:22,498 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.NoneSelectorContextBuilder) contextType(NONE) successfully.
+
+2025-05-17 00:13:22,499 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.LabelSelector) type(label) contextType(CMDB) successfully.
+
+2025-05-17 00:13:22,500 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.NoneSelector) type(none) contextType(NONE) successfully.
+
+2025-05-17 00:13:24,241 INFO Load instance extension handler []
+
+2025-05-17 00:14:47,872 INFO Client connection 1747412087749_172.19.0.5_60448 connect
+
+2025-05-17 00:14:48,001 INFO Client change for service Service{namespace='demo', group='DEFAULT_GROUP', name='demo-gateway', ephemeral=true, revision=0}, 1747412087749_172.19.0.5_60448
+
+2025-05-17 00:14:49,572 INFO Client connection 1747412089444_172.19.0.6_49830 connect
+
+2025-05-17 00:14:49,740 INFO Client change for service Service{namespace='demo', group='DEFAULT_GROUP', name='demo-user', ephemeral=true, revision=0}, 1747412089444_172.19.0.6_49830
+

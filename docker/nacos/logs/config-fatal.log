@@ -1,0 +1,4 @@
+2025-05-17 00:13:20,071 WARN [master-db] jdbc:mysql://demo-mysql:3306/nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+
+2025-05-17 00:13:20,443 WARN isQuickStart:false
+

@@ -1,0 +1,4 @@
+2025-05-17 00:14:49,741 INFO [PUSH] Task merge for Service{namespace='demo', group='DEFAULT_GROUP', name='demo-user', ephemeral=true, revision=1}
+
+2025-05-17 00:14:50,217 INFO [PUSH-SUCC] 29ms, all delay time 535ms, SLA 477ms, Service{namespace='demo', group='DEFAULT_GROUP', name='demo-user', ephemeral=true, revision=1}, originalSize=1, DataSize=1, target=172.19.0.6
+
